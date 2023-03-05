@@ -6,21 +6,42 @@ const root = createRoot(document.querySelector('#root'));
 class Article extends React.Component {
     state = {
         comments: [],
+        content: ''
+    }
+
+    submit = (e) =>{
+        e.preventDefault()
+        console.log(e)
+        const {content} = this.state;
+        if(content.length > 0){
+            this.setState({
+                comments: [...this.state.comments],
+                content: '',
+            })
+        }
+    }
+
+    contentChange = (e) => {
+        const {name, value} = e.target;
+        this.setState({
+            [name]: value,
+        })
     }
     
     render() {
         const {title, body} = this.props;
+        const {content} = this.state;
         return (
             <article>
                 <h1>{ title }</h1>
                 <p>{ body }</p>
                 <section>
-                    <form>
+                    <form onSubmit={this.submit}>
                         <div>
                             <label>
                                 <textarea 
                                     style={{ "minWidth": "300px", "minHeight": "120px" }} 
-                                    name="content" 
+                                    name="content" value={content} onChange={this.contentChange}
                                 />
                             </label>
                         </div>
