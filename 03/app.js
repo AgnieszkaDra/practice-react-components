@@ -14,17 +14,31 @@ class Article extends React.Component {
         console.log(e)
         const {content} = this.state;
         if(content.length > 0){
+            this.addComment(content);
             this.setState({
-                comments: [...this.state.comments],
                 content: '',
             })
         }
+    }
+    addComment(comment){
+        this.setState({
+            comments: [...this.state.comments, comment]
+        })
     }
 
     contentChange = (e) => {
         const {name, value} = e.target;
         this.setState({
             [name]: value,
+        })
+    }
+
+    renderComments(){
+        const {comments} = this.state;
+        return comments.map(comment => {
+            return (
+                <li>{comment}</li>
+            )
         })
     }
     
@@ -48,6 +62,7 @@ class Article extends React.Component {
                         <div><input type="submit" value="dodaj komentarz" /></div>
                     </form>
                     <ul>
+                        {this.renderComments()}
                         {/* tutaj komentarze jako <li/>, ps. tak wygląda komentarz do kodu w JSX */}
                     </ul>
                 </section>
